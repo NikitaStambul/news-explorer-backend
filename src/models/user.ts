@@ -1,11 +1,13 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, ObjectId } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
 export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;
   username: string;
   email: string;
   password: string;
+  bookmarked: mongoose.Types.ObjectId[];
 }
 
 export interface UserModel extends Model<IUser> {
@@ -34,6 +36,12 @@ const userSchema = new Schema<IUser, UserModel>({
     required: true,
     select: false,
   },
+  bookmarked: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Article",
+    },
+  ],
 });
 
 userSchema.statics.findUserByCredentials = async function (

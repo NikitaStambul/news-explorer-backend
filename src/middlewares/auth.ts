@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import UnauthorizedError from "@utils/errors/unauthorizedError";
-import { JWT_SECRET } from "@utils/config";
+import UnauthorizedError from "#utils/errors/unauthorizedError";
+import { JWT_SECRET } from "#utils/config";
 
 export interface AuthenticatedRequest extends Request {
   user?: {

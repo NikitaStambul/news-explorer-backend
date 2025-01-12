@@ -2,14 +2,14 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { Omit } from "utility-types";
-import User, { IUser } from "@models/user";
-import NotFoundError from "@utils/errors/notFoundError";
-import BadRequestError from "@utils/errors/badRequestError";
-import ConflictError from "@utils/errors/conflictError";
-import UnauthorizedError from "@utils/errors/unauthorizedError";
-import { JWT_SECRET } from "@utils/config";
-import { statusCodes } from "@utils/constants";
-import { AuthenticatedRequest } from "@middlewares/auth";
+import User, { IUser } from "#models/user";
+import NotFoundError from "#utils/errors/notFoundError";
+import BadRequestError from "#utils/errors/badRequestError";
+import ConflictError from "#utils/errors/conflictError";
+import UnauthorizedError from "#utils/errors/unauthorizedError";
+import { JWT_SECRET } from "#utils/config";
+import { statusCodes } from "#utils/constants";
+import { AuthenticatedRequest } from "#middlewares/auth";
 
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 

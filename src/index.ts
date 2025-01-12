@@ -1,12 +1,9 @@
 import express from "express";
-import dotenv from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
-import connectDB from "@config/db";
-import router from "@routes/index";
-
-dotenv.config();
-const { PORT = 3001, HOST = "localhost" } = process.env;
+import connectDB from "#config/db";
+import router from "#routes/index";
+import { HOST, PORT } from "#utils/config";
 
 const app = express();
 

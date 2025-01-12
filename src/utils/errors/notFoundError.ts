@@ -1,4 +1,4 @@
-import { statusCodes } from "@utils/constants";
+import { statusCodes } from "#utils/constants";
 
 export default class NotFoundError extends Error {
   statusCode = statusCodes.NOT_FOUND;

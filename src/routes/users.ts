@@ -1,12 +1,7 @@
 import express from "express";
-import {
-  createUser,
-  getCurrentUser,
-  login,
-  updateUserInfo,
-} from "@controllers/users";
-import auth from "../middlewares/auth";
-// import { validateUserUpdate } from "@middlewares/validation";
+import { getCurrentUser, updateUserInfo } from "#controllers/users";
+import auth from "#middlewares/auth";
+// import { validateUserUpdate } from "#middlewares/validation";
 
 const router = express.Router();
 

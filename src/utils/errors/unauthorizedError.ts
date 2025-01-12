@@ -1,4 +1,4 @@
-import { statusCodes } from "@utils/constants";
+import { statusCodes } from "#utils/constants";
 
 export default class UnauthorizedError extends Error {
   statusCode = statusCodes.UNAUTHORIZED;

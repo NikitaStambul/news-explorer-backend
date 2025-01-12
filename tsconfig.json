@@ -11,12 +11,15 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "@config/*": ["src/config/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@models/*": ["src/models/*"],
-      "@routes/*": ["src/routes/*"],
-      "@middlewares/*": ["src/middlewares/*"],
-      "@utils/*": ["src/utils/*"]
+      "#config/*": ["src/config/*"],
+      "#controllers/*": ["src/controllers/*"],
+      "#models/*": ["src/models/*"],
+      "#routes/*": ["src/routes/*"],
+      "#middlewares/*": ["src/middlewares/*"],
+      "#utils/*": ["src/utils/*"],
+      "#api/*": ["src/api/*"],
+      "#types/*": ["src/types/*"],
+      "#/*": ["src/*"]
     }
   },
   "include": ["src/**/*"],
