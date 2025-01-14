@@ -1,10 +1,10 @@
-interface Source {
+interface ISource {
   id: string | null;
   name: string;
 }
 
-export interface Article {
-  source: Source;
+export interface IArticle {
+  source: ISource;
   author: string | null;
   title: string;
   description: string | null;
@@ -14,8 +14,8 @@ export interface Article {
   content: string | null;
 }
 
-export interface Response {
+export interface IResponse {
   status: string;
   totalResults: number;
-  articles: Article[];
+  articles: IArticle[];
 }

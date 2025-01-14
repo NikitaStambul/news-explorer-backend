@@ -1,13 +1,17 @@
 import mongoose, { Schema, Document, Model, ObjectId } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
+import { IArticle } from "#types/newsapi";
+
+export interface ISavedArticle extends IArticle {
+  keyword: string;
+}
 
 export interface IUser extends Document {
-  _id: mongoose.Types.ObjectId;
   username: string;
   email: string;
   password: string;
-  bookmarked: mongoose.Types.ObjectId[];
+  bookmarked: ISavedArticle[];
 }
 
 export interface UserModel extends Model<IUser> {
@@ -38,8 +42,18 @@ const userSchema = new Schema<IUser, UserModel>({
   },
   bookmarked: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Article",
+      keyword: { type: String, default: null },
+      source: {
+        id: { type: String, default: null },
+        name: { type: String, required: true },
+      },
+      author: { type: String, default: null },
+      title: { type: String, required: true },
+      description: { type: String, default: null },
+      url: { type: String, required: true },
+      urlToImage: { type: String, default: null },
+      publishedAt: { type: String, required: true },
+      content: { type: String, default: null },
     },
   ],
 });

@@ -1,6 +1,5 @@
 import newsApi from "#api/newsApi";
 import { AuthenticatedRequest } from "#middlewares/auth";
-import Article from "#models/article";
 import User from "#models/user";
 import { statusCodes } from "#utils/constants";
 import BadRequestError from "#utils/errors/badRequestError";
@@ -24,7 +23,7 @@ export const getArticles = async (
     }
 
     const articles = await newsApi.getArticles(query);
-    res.send(articles);
+    res.send({ articles });
   } catch (error) {
     next(error);
   }
@@ -43,35 +42,71 @@ export const saveArticle = async (
   }
 
   try {
-    let existingArticle = await Article.findOne({ url: article.url });
-
-    if (!existingArticle) {
-      existingArticle = await Article.create(article);
-    }
-
     const user = await User.findById(userId);
+
     if (!user) {
       return next(new NotFoundError("User not found"));
     }
 
-    const isBookmarked = user.bookmarked.some((articleId) =>
-      articleId.equals(existingArticle._id)
+    const isBookmarked = user.bookmarked.some(
+      (savedArticle) => savedArticle.url === article.url
     );
 
     if (isBookmarked) {
       res
         .status(statusCodes.OK)
         .send({ message: "Article is already bookmarked" });
+
       return;
     }
 
-    user.bookmarked.push(existingArticle._id);
+    user.bookmarked.unshift(article);
     await user.save();
 
     res.status(statusCodes.CREATED).send({
       message: "Article saved and bookmarked",
-      article: existingArticle,
+      article,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const removeArticle = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { url } = req.body;
+  const userId = req.user?._id;
+
+  if (!userId) {
+    return next(new BadRequestError("User ID is required"));
+  }
+
+  if (!url || typeof url !== "string") {
+    return next(new BadRequestError("URL is required and must be a string"));
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return next(new NotFoundError("User not found"));
+    }
+
+    const initialLength = user.bookmarked.length;
+    user.bookmarked = user.bookmarked.filter((article) => article.url !== url);
+
+    if (user.bookmarked.length === initialLength) {
+      return next(new NotFoundError("Article not found in bookmarks"));
+    }
+
+    await user.save();
+
+    res
+      .status(statusCodes.OK)
+      .send({ message: "Article removed from bookmarks" });
   } catch (error) {
     next(error);
   }

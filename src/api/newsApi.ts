@@ -1,4 +1,4 @@
-import { Article } from "#types/newsapi";
+import { IArticle, IResponse } from "#types/newsapi";
 import { NEWS_API_KEY, NEWS_API_URL } from "#utils/config";
 
 class NewsApi {
@@ -14,7 +14,7 @@ class NewsApi {
     NewsApi.shared = this;
   }
 
-  async getArticles(query: string = "apple"): Promise<Article[]> {
+  async getArticles(query: string = "apple"): Promise<IArticle[]> {
     const url = new URL(`${this._baseUrl}/everything`);
     url.searchParams.set("apiKey", this._APIkey);
     url.searchParams.set("sortBy", "relevancy");
@@ -25,9 +25,7 @@ class NewsApi {
     const fromDateFormatted = fromDate.toISOString().split("T")[0];
     url.searchParams.set("from", fromDateFormatted);
 
-    const response = await this._request<{ articles: Article[] }>(
-      url.toString()
-    );
+    const response = await this._request<IResponse>(url.toString());
 
     return response.articles;
   }
